@@ -5,7 +5,7 @@ function BoxDraggable(props) {
   return (
     <div
       id={props.id}
-      className="box"
+      className={props.selected ? "box selected" : "box"}
       style={{
         backgroundColor: props.color,
         width: props.width,
