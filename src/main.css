@@ -25,6 +25,12 @@ html,
   background-color: aliceblue;
 }
 
+.selected {
+  border-style: dashed;
+  border-color: black;
+  border-width: 1px;
+}
+
 .box {
   position: absolute;
   display: flex;
