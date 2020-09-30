@@ -19,19 +19,20 @@ html,
   align-items: center;
   justify-content: center;
 }
-.canva {
+.canvas {
   width: 1200px;
   height: 675px;
   background-color: aliceblue;
 }
 
-.selected {
-  border-style: dashed;
-  border-color: black;
-  border-width: 1px;
+.box {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.box {
+.overlay {
   position: absolute;
   display: flex;
   justify-content: center;

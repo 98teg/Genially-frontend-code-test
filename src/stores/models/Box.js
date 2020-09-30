@@ -19,7 +19,7 @@ const BoxModel = types
       deselect() {
         self.selected = false
       },
-      toggleSelection() {
+      toggle() {
         self.selected = !self.selected
       },
       setLeft(left) {

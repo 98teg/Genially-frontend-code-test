@@ -1,11 +1,16 @@
 import React from "react";
 import { observer } from "mobx-react";
 import BoxDraggable from "./BoxDraggable";
+import BoxOverlay from "./BoxOverlay";
 
 function Box(props) {
   return (
     <BoxDraggable {...props}>
-      <div>Box</div>
+      {props.selected ?
+        <BoxOverlay {...props}>
+          <div>Box</div>
+        </BoxOverlay> :
+        <div>Box</div>}
     </BoxDraggable>
   );
 }

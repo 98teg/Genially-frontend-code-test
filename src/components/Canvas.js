@@ -6,56 +6,73 @@ import Box from "../components/Box";
 
 class Canvas extends React.Component {
   constructor () {
-    super()
+    super();
 
-    this.toggleBoxSelection = this.toggleBoxSelection.bind(this)
-    this.moveBoxes = this.moveBoxes.bind(this)
+    this.state = {selectedArea: {}};
+
+    this.getRestriction = this.getRestriction.bind(this);
+    this.toggleBox = this.toggleBox.bind(this);
+    this.startMovingBoxes = this.startMovingBoxes.bind(this);
+    this.moveBoxes = this.moveBoxes.bind(this);
 
     interact('.box')
-      .on(
-        "tap",
-        this.toggleBoxSelection
-      )
+      .on("tap", this.toggleBox)
       .draggable({
         modifiers: [
           interact.modifiers.restrictRect({
-            restriction: 'parent'
+            restriction: this.getRestriction
           })
         ],
     
         listeners: {
+          start: this.startMovingBoxes,
           move: this.moveBoxes
         }
-      })
+      });
   }
 
-  toggleBoxSelection (event) {
-    this.props.store.getBox(event.target.id).toggleSelection()
+  getRestriction () {
+    let canvas = document.getElementById("canvas").getBoundingClientRect();
+  
+    let { x, y, width, height } = canvas;
+
+    x += this.state.selectedArea.left;
+    y += this.state.selectedArea.top;
+    width -= (this.state.selectedArea.right + this.state.selectedArea.left);
+    height -= (this.state.selectedArea.bottom + this.state.selectedArea.top);
+  
+    return {x: x, y: y, width: width, height: height};
+  }
+
+  toggleBox (event) {
+    this.props.store.getBox(event.currentTarget.id).toggle();
+  }
+
+  startMovingBoxes (event) {
+    if (this.props.store.getBox(event.currentTarget.id).selected === false) this.toggleBox(event);
+
+    let selected_area = this.props.store.getSelectedArea(event.currentTarget.id);
+
+    if (this.state.selectedArea !== selected_area) {
+      this.setState({selectedArea: selected_area});
+    }
   }
 
   moveBoxes (event) {
-    this.props.store.getBox(event.target.id).select();
-  
     this.props.store.getSelectedBoxes().forEach((box) => {
       box.setLeft(box.left + event.dx);
       box.setTop(box.top + event.dy);
-    })
+    });
   }
 
   render () {
     return (
-      <div className="canva">
+      <div id="canvas" className="canvas">
         {this.props.store.boxes.map((box, index) => (
           <Box
-            id={box.id}
-            key={index}
-            color={box.color}
-            left={box.left}
-            top={box.top}
-            width={box.width}
-            height={box.height}
-            selected={box.selected}
-            box={box}
+            {...box}
+            key = {index}
+            box = {box}
           />
         ))}
       </div>
