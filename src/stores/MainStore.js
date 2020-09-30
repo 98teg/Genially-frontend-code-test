@@ -34,6 +34,9 @@ const MainStore = types
     return {
       addBox(box) {
         self.boxes.push(box);
+      },
+      removeSelectedBoxes() {
+        self.boxes = self.boxes.filter(box => box.selected === false)
       }
     };
   });

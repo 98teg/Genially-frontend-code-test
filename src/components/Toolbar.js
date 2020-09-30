@@ -9,6 +9,7 @@ class Toolbar extends React.Component {
     super()
   
     this.addBox = this.addBox.bind(this)
+    this.removeBoxes = this.removeBoxes.bind(this)
   }
 
   addBox () {
@@ -22,11 +23,15 @@ class Toolbar extends React.Component {
     this.props.store.addBox(box);
   }
 
+  removeBoxes () {
+    this.props.store.removeSelectedBoxes();
+  }
+
   render () {
     return (
       <div className="toolbar">
         <button onClick={this.addBox}>Add Box</button>
-        <button>Remove Box</button>
+        <button onClick={this.removeBoxes}>Remove Box</button>
         <input type="color" />
         <span>No boxes selected</span>
       </div>
